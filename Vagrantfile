@@ -54,10 +54,9 @@ class Vm
           id: "%s_share" % @name,
           nfs: true,
           mount_options: [
-            'nolock,vers=%s,%s' % [
-              @nfs_version,
-              @nfs_protocol,
-            ],
+            'nolock',
+            "vers=#{@nfs_version}",
+            @nfs_protocol,
           ],
         )
       end
