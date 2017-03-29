@@ -43,9 +43,19 @@ class Vm
   end
 
   def configure()
+
+    if Vagrant.has_plugin?('vagrant-cachier')
+      puts 'Configuring vagrant-cachier...'
+      @config.cache.scope = :machine
+      @config.cache.synced_folder_opts = {
+        type: :nfs,
+        mount_options: ['rw', 'tcp', 'nolock'],
+      }
+    end
+
     @config.vm.box = @box
     @config.vm.define @name do |c|
-      c.vm.hostname = @name
+      c.vm.hostname = "#{@name}.local"
 
       @shared_folders.each_with_index do |(hfolder, gfolder), i|
         c.vm.synced_folder(
